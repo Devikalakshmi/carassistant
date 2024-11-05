@@ -21,15 +21,14 @@ from sklearn.metrics.pairwise import cosine_similarity
 import concurrent.futures
 import streamlit as st
 import asyncio
+import nltk
+nltk.download('punkt')
 
 # Directory containing the PDFs
 current_file_directory = os.path.dirname(os.path.abspath(__file__))
 relative_path = "car"
 base_directory = os.path.join(current_file_directory, relative_path)
 
-
-# Download NLTK data
-nltk.download("punkt")
 stemmer = PorterStemmer()
 
 
@@ -52,48 +51,6 @@ async def correct_spelling_with_google_genai(text):
         corrected_text = text
 
     return corrected_text
-
-
-def convert_latex_to_text(latex_text):
-    superscript_map = {
-        "0": "⁰",
-        "1": "¹",
-        "2": "²",
-        "3": "³",
-        "4": "⁴",
-        "5": "⁵",
-        "6": "⁶",
-        "7": "⁷",
-        "8": "⁸",
-        "9": "⁹",
-    }
-    subscript_map = {
-        "0": "₀",
-        "1": "₁",
-        "2": "₂",
-        "3": "₃",
-        "4": "₄",
-        "5": "₅",
-        "6": "₆",
-        "7": "₇",
-        "8": "₈",
-        "9": "₉",
-    }
-
-    def replace_superscripts(match):
-        base = match.group(1)
-        superscript = match.group(2)
-        return base + "".join(superscript_map.get(ch, ch) for ch in superscript)
-
-    def replace_subscripts(match):
-        base = match.group(1)
-        subscript = match.group(2)
-        return base + "".join(subscript_map.get(ch, ch) for ch in subscript)
-
-    latex_text = re.sub(r"\^([0-9]+)\^", replace_superscripts, latex_text)
-    latex_text = re.sub(r"~([0-9]+)~", replace_subscripts, latex_text)
-
-    return latex_text
 
 
 def load_api_key():
@@ -205,49 +162,7 @@ async def refine_text_with_google_genai(query, result_text):
     except Exception as e:
         st.error(f"An error occurred while refining the text: {e}")
         refined_text = result_text
-
-    superscript_map = {
-        "^0": "⁰",
-        "^1": "¹",
-        "^2": "²",
-        "^3": "³",
-        "^4": "⁴",
-        "^5": "⁵",
-        "^6": "⁶",
-        "^7": "⁷",
-        "^8": "⁸",
-        "^9": "⁹",
-        "^x": "ˣ",
-        "^+": "⁺",
-        "^-": "⁻",
-        "^=": "⁼",
-        "^(": "⁽",
-        "^)": "⁾",
-    }
-    subscript_map = {
-        "~0~": "₀",
-        "~1~": "₁",
-        "~2~": "₂",
-        "~3~": "₃",
-        "~4~": "₄",
-        "~5~": "₅",
-        "~6~": "₆",
-        "~7~": "₇",
-        "~8~": "₈",
-        "~9~": "₉",
-        "~+~": "₊",
-        "~−~": "₋",
-        "~=~": "₌",
-        "~(~": "₍",
-        "~)~": "₎",
-    }
-
-    for key, value in superscript_map.items():
-        refined_text = refined_text.replace(key, value)
-    for key, value in subscript_map.items():
-        refined_text = refined_text.replace(key, value)
-    refined_text = refined_text.replace("µ", "µ").replace("λ", "λ")
-
+    
     return refined_text
 
 
@@ -560,7 +475,7 @@ async def main():
             if st.button("New Chat", key="stbackbtn", on_click=newchat):
                 pass
         st.markdown(
-            '<div class="fixed-text">KTUASSISTANT can make mistakes.</div>',
+            '<div class="fixed-text">CARASSISTANT can make mistakes.</div>',
             unsafe_allow_html=True,
         )
         if btn:
@@ -577,8 +492,8 @@ async def main():
                         refined_text = await refine_text_with_google_genai(
                             user_query, result_text
                         )
-                        formatted_text = convert_latex_to_text(refined_text)
-                        response_message = f"\n\n{formatted_text}\n"
+                        
+                        response_message = f"\n\n{refined_text}\n"
                     else:
                         response_message = "No relevant notes found."
 
