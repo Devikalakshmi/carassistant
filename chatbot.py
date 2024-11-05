@@ -24,7 +24,7 @@ import asyncio
 
 # Directory containing the PDFs
 current_file_directory = os.path.dirname(os.path.abspath(__file__))
-relative_path = "MARUTHI"
+relative_path = "car"
 base_directory = os.path.join(current_file_directory, relative_path)
 
 
@@ -396,7 +396,7 @@ async def main():
     if st.session_state.step == 1:
         st.subheader("Select your Car Brand")
         streams = [
-            "MARUTI",
+            "Maruthi",
             "JAGUAR",
             "KIA",
             "VOLVO",
@@ -413,7 +413,7 @@ async def main():
         )
         col1, col2, col3 = st.columns([0.13, 0.17, 1])
         with col1:
-            if st.button("Back", on_click=back):
+            if st.button("Backad", on_click=back):
                 pass
         with col2:
             if st.button("Next", key="nextsub", on_click=next):
@@ -443,20 +443,14 @@ async def main():
             "DIESEL",
         ]
         swift = [
-            "petrol",
+            "PETROL",
             "CNG",
             
         ]
        
     
         if (
-            st.session_state.selected_stream == "MARUTHI"
-            or st.session_state.selected_stream
-            == "JAGUAR"
-            or st.session_state.selected_stream
-            == "KIA"
-            or st.session_state.selected_stream == "VOLVO"
-            or st.session_state.selected_stream == "HYUNDAI"
+            st.session_state.selected_stream == "Maruthi"
         ) and st.session_state.selected_year == "ALTO K10":
             selected_subject = st.selectbox("choose a car type", alto)
             col1, col2, col3 = st.columns([0.13, 0.17, 1])
@@ -467,13 +461,7 @@ async def main():
                 if st.button("Submit", on_click=next):
                     pass
         elif (
-           st.session_state.selected_stream == "MARUTHI"
-            or st.session_state.selected_stream
-            == "JAGUAR"
-            or st.session_state.selected_stream
-            == "KIA"
-            or st.session_state.selected_stream == "VOLVO"
-            or st.session_state.selected_stream == "HYUNDAI"
+           st.session_state.selected_stream == "Maruthi"
         ) and st.session_state.selected_year == "ALTO-800":
             selected_subject = st.selectbox("choose a car type", alto8)
             col1, col2, col3 = st.columns([0.13, 0.17, 1])
@@ -484,13 +472,7 @@ async def main():
                 if st.button("Submit", on_click=next):
                     pass
         elif (
-            st.session_state.selected_stream == "MARUTHI"
-            or st.session_state.selected_stream
-            == "JAGUAR"
-            or st.session_state.selected_stream
-            == "KIA"
-            or st.session_state.selected_stream == "VOLVO"
-            or st.session_state.selected_stream == "HYUNDAI"
+            st.session_state.selected_stream == "Maruthi"
         ) and st.session_state.selected_year == "SWIFT":
             selected_subject = st.selectbox("choose a car type", swift)
             col1, col2, col3 = st.columns([0.13, 0.17, 1])
